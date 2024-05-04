@@ -1,4 +1,3 @@
-// routes/memberRoutes.js
 const express = require('express');
 const router = express.Router();
 const Member = require('../models/member');
@@ -29,6 +28,45 @@ router.post('/', async (req, res) => {
     res.status(201).json(newMember);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+});
+
+// Endpoint untuk memperbarui informasi anggota berdasarkan ID
+router.put('/:memberId', async (req, res) => {
+  try {
+    const updatedMember = await Member.findByIdAndUpdate(req.params.memberId, req.body, { new: true });
+    if (!updatedMember) {
+      return res.status(404).json({ message: 'Member not found' });
+    }
+    res.json(updatedMember);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// Endpoint untuk memperbarui informasi anggota sebagian berdasarkan ID
+router.patch('/:memberId', async (req, res) => {
+  try {
+    const updatedMember = await Member.findByIdAndUpdate(req.params.memberId, req.body, { new: true });
+    if (!updatedMember) {
+      return res.status(404).json({ message: 'Member not found' });
+    }
+    res.json(updatedMember);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// Endpoint untuk menghapus anggota berdasarkan ID
+router.delete('/:memberId', async (req, res) => {
+  try {
+    const deletedMember = await Member.findByIdAndDelete(req.params.memberId);
+    if (!deletedMember) {
+      return res.status(404).json({ message: 'Member not found' });
+    }
+    res.json({ message: 'Member deleted' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

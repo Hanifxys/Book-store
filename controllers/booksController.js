@@ -1,7 +1,7 @@
 const Book = require('../models/book');
 
 // Function to handle GET request for all books
-exports.getAllBooks = async (req, res) => {
+const getAllBooks = async (req, res) => {
   try {
     const books = await Book.find();
     res.json(books);
@@ -11,7 +11,7 @@ exports.getAllBooks = async (req, res) => {
 };
 
 // Function to handle GET request for a specific book by ISBN
-exports.getBookByISBN = async (req, res) => {
+const getBookByISBN = async (req, res) => {
   try {
     const book = await Book.findOne({ ISBN: req.params.isbn });
     if (!book) {
@@ -23,9 +23,8 @@ exports.getBookByISBN = async (req, res) => {
   }
 };
 
-
 // Memeriksa status buku berdasarkan ISBN
-exports.getBookStatus = async (req, res) => {
+const getBookStatus = async (req, res) => {
     const isbn = req.params.isbn;
     try {
         const book = await Book.findOne({ ISBN: isbn });
@@ -40,15 +39,8 @@ exports.getBookStatus = async (req, res) => {
     }
 };
 
-
-
-
-
-
-
-
 // Function to handle POST request to create a new book
-exports.createBook = async (req, res) => {
+const createBook = async (req, res) => {
   const book = new Book({
     ISBN: req.body.ISBN,
     Title: req.body.Title,
@@ -68,7 +60,7 @@ exports.createBook = async (req, res) => {
 };
 
 // Function to handle DELETE request to delete a book by ISBN
-exports.deleteBook = async (req, res) => {
+const deleteBook = async (req, res) => {
   try {
     const book = await Book.findOne({ ISBN: req.params.isbn });
     if (!book) {
@@ -80,3 +72,5 @@ exports.deleteBook = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports = { getAllBooks, getBookByISBN, getBookStatus, createBook, deleteBook };

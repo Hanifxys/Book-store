@@ -1,42 +1,30 @@
 const express = require('express');
 const app = express();
 const mongoose = require('./database/db'); // Menyertakan koneksi ke MongoDB
+const loanRoutes = require('./routes/loanRoutes');
+const reservationRoutes = require('./routes/reservationRoutes');
+const memberRoutes = require('./routes/memberRoutes');
+const bookRoutes = require('./routes/bookRoutes');
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
+
 
 // Routes
-try {
-  const loanRoutes = require('./routes/loanRoutes');
+
+
   app.use('/loans', loanRoutes);
-} catch (error) {
-  console.error('Error loading loanRoutes:', error.message);
-}
-
-try {
-  const reservationRoutes = require('./routes/reservationRoutes');
   app.use('/reservations', reservationRoutes);
-} catch (error) {
-  console.error('Error loading reservationRoutes:', error.message);
-}
-
-try {
-  const memberRoutes = require('./routes/memberRoutes');
   app.use('/members', memberRoutes);
-} catch (error) {
-  console.error('Error loading memberRoutes:', error.message);
-}
-
-try {
-  const bookRoutes = require('./routes/bookRoutes');
   app.use('/books', bookRoutes);
-} catch (error) {
-  console.error('Error loading bookRoutes:', error.message);
-}
+
 // Middleware untuk penanganan 404
 app.use((req, res, next) => {
     res.status(404).send('404 - Not Found');
   });
+
+
   
 
 // Port
